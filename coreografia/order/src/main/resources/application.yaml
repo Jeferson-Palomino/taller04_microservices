@@ -1,0 +1,27 @@
+server:
+  port: 8093
+
+spring:
+  application:
+    name: order-service
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017
+      database: coreografia
+  kafka:
+    bootstrap-servers: localhost:9092
+  cloud:
+    stream:
+      kafka:
+        bindings:
+          requestMessageProducer-out-0:
+            producer:
+              configuration:
+                # noinspection SpringBootApplicationYaml
+                key:
+                  serializer: org.apache.kafka.common.serialization.LongSerializer
+      function:
+        definition: requestMessageProducer;
+      bindings:
+        requestMessageProducer-out-0:
+          destination: orders.buy
